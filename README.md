@@ -1,50 +1,55 @@
-# React + TypeScript + Vite
+# WalSy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This project is a simple React application that allows users to connect their MetaMask wallet, retrieve their Ethereum balance, and display it on the screen.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **MetaMask Integration**: Connect your MetaMask wallet directly from the browser.
+- **Ethereum Balance Display**: Fetch and display the Ethereum balance of the connected wallet.
+- **Responsive UI**: The interface is designed to be responsive and user-friendly.
+- **Error Handling**: Displays error messages for issues such as MetaMask not being installed or connection failures.
 
-## Expanding the ESLint configuration
+## How It Works
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+1. **Connect Wallet**: Users click the "Connect Wallet" button to connect their MetaMask wallet.
+2. **Balance Retrieval**: Upon successful connection, the Ethereum balance of the connected wallet is fetched and displayed.
+3. **Error Display**: If there is an error (e.g., MetaMask not installed or a connection issue), an error message is shown.
 
-- Configure the top-level `parserOptions` property like this:
+## Prerequisites
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+- **MetaMask**: Ensure that the MetaMask browser extension is installed and set up.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+## Installation
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+1. Clone the repository:
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+   ```bash
+   git clone https://github.com/D-pixel-crime/Crypto-Wallet-Balance.git ./
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+3. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+4. Open your browser and navigate to `http://localhost:5173`.
+
+## Usage
+
+- **Connect Wallet**: Click the "Connect Wallet" button to connect your MetaMask wallet.
+- **View Balance**: After connecting, your Ethereum balance will be displayed on the screen.
+- **Error Handling**: If there’s an issue, an error message will appear on the screen.
+
+## Technologies Used
+
+- **React**: Frontend framework for building user interfaces.
+- **ethers.js**: Library for interacting with the Ethereum blockchain.
+- **TailwindCSS**: Styling for the application.
+- **react-loader-spinner**: Spinner for loading states.
