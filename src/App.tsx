@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import { formatEther } from "ethers";
 import { Grid } from "react-loader-spinner";
@@ -15,7 +15,7 @@ function App() {
         method: "eth_getBalance",
         params: [newAccount, "latest"],
       });
-      setBalance(formatEther(res.balance));
+      setBalance(formatEther(res));
     } catch (error: any) {
       setIsError(true);
       setWhatIsTheError(error.message);
@@ -37,11 +37,14 @@ function App() {
         console.log("MetaMask is installed");
 
         try {
-          const res = (window as any).ethereum.request({
-            method: "eth_requestAccounts",
-          });
-          handleAccountChange(res[0]);
-          getAccountBalance(res[0]);
+          (window as any).ethereum
+            .request({
+              method: "eth_requestAccounts",
+            })
+            .then((accounts: string[]) => {
+              handleAccountChange(accounts[0]);
+              getAccountBalance(accounts[0]);
+            });
         } catch (error: any) {
           setIsError(true);
           setWhatIsTheError(error.message);
@@ -49,7 +52,7 @@ function App() {
             setIsError(false);
           }, 3000);
         }
-      } else if (!(window as any).ethereum) {
+      } else {
         setIsError(true);
         setWhatIsTheError("Please Install Meta-Mask Browser Extension!");
         setTimeout(() => {
@@ -61,11 +64,25 @@ function App() {
     }, 1500);
   };
 
-  (window as any).ethereum.on("accountsChanged", handleAccountChange);
+  useEffect(() => {
+    if ((window as any).ethereum) {
+      (window as any).ethereum.on("accountsChanged", handleAccountChange);
 
-  (window as any).ethereum.on("chainChanged", () => {
-    window.location.reload();
-  });
+      (window as any).ethereum.on("chainChanged", () =>
+        window.location.reload()
+      );
+
+      return () => {
+        (window as any).ethereum.removeListener(
+          "accountsChanged",
+          handleAccountChange
+        );
+        (window as any).ethereum.removeListener("chainChanged", () =>
+          window.location.reload()
+        );
+      };
+    }
+  }, []);
 
   return (
     <article className="bg-neutral-800 h-screen max-w-screen text-white flex-center break-words max-lg:px-5">
@@ -90,7 +107,7 @@ function App() {
           </div>
         ) : (
           <button
-            disabled={btnState !== "Connect Wallet" ? true : false}
+            disabled={btnState !== "Connect Wallet"}
             onClick={(e) => {
               e.preventDefault();
               connectToWallet();
